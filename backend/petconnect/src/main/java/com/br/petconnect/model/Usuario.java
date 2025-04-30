@@ -1,0 +1,115 @@
+package com.br.petconnect.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "usuario")
+public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotBlank
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @NotBlank
+    @Column(name = "senha", nullable = false)
+    private String senha;
+
+    @NotBlank
+    @Column(name = "nome", nullable = false)
+    private String nome;
+
+    @Column(name = "telefone")
+    private String telefone;
+
+    @Column(name = "imagem_url")
+    private String imagemUrl;
+
+    @Column(name = "data_nascimento")
+    private LocalDate dataNascimento;
+
+    @Column(name = "data_criacao")
+    private LocalDate dataCriacao;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(value = EnumType.ORDINAL)
+    private Role role;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+}
