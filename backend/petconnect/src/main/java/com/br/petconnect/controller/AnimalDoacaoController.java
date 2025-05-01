@@ -4,30 +4,38 @@ import com.br.petconnect.controller.model.request.AnimalDoacaoRequest;
 import com.br.petconnect.controller.model.response.AnimalDoacaoResponse;
 import com.br.petconnect.model.Animal;
 import com.br.petconnect.model.AnimalDoacao;
+import com.br.petconnect.model.AnimalDoacaoInteressado;
+import com.br.petconnect.model.Usuario;
+import com.br.petconnect.repository.AnimalDoacaoInteressadoRepository;
 import com.br.petconnect.repository.AnimalDoacaoRepository;
-import com.br.petconnect.service.SecurityUserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/doacao")
+@RequestMapping("/animal/doacao")
 public class AnimalDoacaoController extends PetConnetBaseController {
 
     @Autowired
     private AnimalDoacaoRepository animalDoacaoRepository;
+
+    @Autowired
+    private AnimalDoacaoInteressadoRepository animalDoacaoInteressadoRepository;
 
     @PostMapping
     public ResponseEntity<?> publicarDoacao(@Valid @RequestBody AnimalDoacaoRequest animalDoacaoRequest) throws Exception {
         if (animalDoacaoRequest == null || animalDoacaoRequest.getAnimal() == null) {
             return ResponseEntity.badRequest().body("Dados inválidos");
         }
-        AnimalDoacao animalDoacao = animalDoacaoRepository.save(convertAnimalDoacao(animalDoacaoRequest, getUsernameFromRequest()));
-        return ResponseEntity.ok(convertAnimalDoacaoResponse(animalDoacao));
+        AnimalDoacao animalDoacao = convertAnimalDoacao(animalDoacaoRequest, getUsernameFromRequest());
+        animalDoacao.setDataPublicacao(LocalDate.now());
+        return ResponseEntity.ok(convertAnimalDoacaoResponse(animalDoacaoRepository.save(animalDoacao)));
     }
 
     @GetMapping("/all")
@@ -40,16 +48,35 @@ public class AnimalDoacaoController extends PetConnetBaseController {
         return ResponseEntity.ok(list);
     }
 
-    @DeleteMapping("/{idAnimalDoacao}")
-    public void removerDoacao(@PathVariable Long idAnimalDoacao) {
-        animalDoacaoRepository.deleteById(idAnimalDoacao);
+    @PostMapping("/interesse")
+    public ResponseEntity<?> registrarInteresse(@RequestBody Long idDoacao) throws Exception {
+        Usuario usuario = securityUserService.loadUserEntityByUsername(getUsernameFromRequest());
+        AnimalDoacao animalDoacao = animalDoacaoRepository.findById(idDoacao).orElse(null);
+        if (animalDoacao == null) {
+            return ResponseEntity.badRequest().body("Doação não existe");
+        }
+
+        if (Objects.equals(usuario.getId(), animalDoacao.getDoador().getId())) {
+            return ResponseEntity.badRequest().body("Não pode se interessar por uma doação própria");
+        }
+
+        AnimalDoacaoInteressado interessado = new AnimalDoacaoInteressado();
+        interessado.setUsuario(usuario);
+        interessado.setAnimalDoacao(animalDoacao);
+        animalDoacaoInteressadoRepository.save(interessado);
+        return ResponseEntity.ok().build();
     }
 
-    public static AnimalDoacao convertAnimalDoacao(AnimalDoacaoRequest animalDoacaoRequest, String username) throws Exception {
+    @DeleteMapping("/{id}")
+    public void removerDoacao(@PathVariable Long id) {
+        animalDoacaoRepository.deleteById(id);
+    }
+
+    private AnimalDoacao convertAnimalDoacao(AnimalDoacaoRequest animalDoacaoRequest, String username) throws Exception {
         AnimalDoacao anuncioDoacao = new AnimalDoacao();
         anuncioDoacao.setTitulo(animalDoacaoRequest.getTitulo());
         anuncioDoacao.setDescricao(animalDoacaoRequest.getDescricao());
-        anuncioDoacao.setDoador(new SecurityUserServiceImpl().loadUserEntityByUsername(username));
+        anuncioDoacao.setDoador(securityUserService.loadUserEntityByUsername(username));
         Animal animal = AnimalConverter.convertAnimal(animalDoacaoRequest.getAnimal());
         anuncioDoacao.setAnimal(animal);
         return anuncioDoacao;
@@ -64,55 +91,5 @@ public class AnimalDoacaoController extends PetConnetBaseController {
         animalDoacaoResponse.setAnimal(AnimalConverter.convertAnimalResponse(animalDoacao.getAnimal()));
         return animalDoacaoResponse;
     }
-
-
-//    /**
-//     * Valida o token da requisição e retorna o usuário do token.
-//     *
-//     * @return o usuário do token
-//     * @throws AliasUnauthorizedException se o token não é válido ou qualquer outro erro
-//     */
-//    protected UserDetails getUserAutenticado() throws Exception {
-//        try {
-//            String token = getValidJwt();
-//            if (token == null) {
-//                throw new Exception();
-//            }
-//
-//            Claims body = jwtUtils.getBodyFromToken(token);
-//            if (body == null) {
-//                throw new Exception();
-//            }
-//
-//            SecurityUser aliasUserDetails = new SecurityUser();
-//            aliasUserDetails.setUsername(body.getSubject());
-//            aliasUserDetails.setNome(body.get("nome", String.class));
-//            aliasUserDetails.setEmail(body.get("email", String.class));
-//            aliasUserDetails.setPassword(body.getSubject());
-//
-//            String _authorities = body.get("authorities", String.class);
-//            Collection<GrantedAuthority> authorities = Collections.emptySet();
-//            if (_authorities != null) {
-//                String[] split = _authorities.split(",");
-//                if (split != null && split.length > 0) {
-//                    authorities = new HashSet<>(split.length);
-//                    for (String authority : split) {
-//                        authorities.add(new SimpleGrantedAuthority(authority));
-//                    }
-//                }
-//            }
-//            UserDetails userDetails = aliasUserDetails;
-//
-//            if (userDetails != null) {
-//                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
-//                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(servletRequest));
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-//                return userDetails;
-//            }
-//            throw new Exception();
-//        } catch (Exception e) {
-//            throw new Exception();
-//        }
-//    }
 
 }

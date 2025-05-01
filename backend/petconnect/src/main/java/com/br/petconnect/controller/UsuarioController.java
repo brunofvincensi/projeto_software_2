@@ -1,13 +1,12 @@
 package com.br.petconnect.controller;
 
 import com.br.petconnect.controller.model.request.LoginRequest;
-import com.br.petconnect.controller.model.response.LoginResponse;
 import com.br.petconnect.controller.model.request.UsuarioRequest;
+import com.br.petconnect.controller.model.response.LoginResponse;
 import com.br.petconnect.model.Role;
 import com.br.petconnect.model.SecurityUser;
 import com.br.petconnect.model.Usuario;
 import com.br.petconnect.repository.UsuarioRepository;
-import com.br.petconnect.service.SecurityUserServiceImpl;
 import com.br.petconnect.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -28,13 +27,10 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioController {
+public class UsuarioController extends PetConnetBaseController {
 
     @Autowired
     private JwtUtil jwtUtils;
-
-//    @Autowired
-//    private UsuarioService usuarioService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -44,19 +40,6 @@ public class UsuarioController {
 
     @Autowired
     AuthenticationManager authenticationManager;
-
-//    @GetMapping
-//    public List<UsuarioResponse> buscaListaUsuario() {
-//        return usuarioService.buscarUsuarios();
-//    }
-
-//    @GetMapping("/me")
-//    public UsuarioResponse getMe() throws IllegalAccessException, InvocationTargetException {
-//        Usuario user = jwt.getUserFromHeaderToken();
-//        UsuarioResponse ur = new UsuarioResponse();
-//        BeanUtils.copyProperties(ur, user);
-//        return ur;
-//    }
 
     @PostMapping
     public ResponseEntity<?> cadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest) {
@@ -74,17 +57,6 @@ public class UsuarioController {
         usuarioRepository.save(usuario);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-//    @GetMapping("/{id}/get-role")
-//    public RoleUsuarioResponse getRole(@PathVariable Integer id){
-//        return usuarioService.getRole(id);
-//    }
-
-//    @PostMapping("/imagem")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public ImagemDto cadastrarImagem(@RequestParam("image") MultipartFile multipartFile) {
-//        return usuarioService.cadastrarImagem(multipartFile);
-//    }
 
     @PostMapping("/login")
     public ResponseEntity<?> logar(@RequestBody @Valid LoginRequest loginRequest) {
@@ -113,7 +85,7 @@ public class UsuarioController {
     public ResponseEntity<?> refresh(@RequestBody @Valid String refreshToken) {
         if (refreshToken != null && jwtUtils.validateToken(refreshToken)) {
             String username = jwtUtils.getUserNameFromToken(refreshToken);
-            SecurityUser aliasUserDetails = (SecurityUser) new SecurityUserServiceImpl().loadUserByUsername(username);
+            SecurityUser aliasUserDetails = (SecurityUser) securityUserService.loadUserByUsername(username);
             if (aliasUserDetails != null) {
                 String token = jwtUtils.generateLoginToken(aliasUserDetails);
                 String newRefreshToken = jwtUtils.generateRefreshToken(aliasUserDetails);

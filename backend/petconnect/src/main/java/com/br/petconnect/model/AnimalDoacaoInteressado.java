@@ -14,7 +14,7 @@ public class AnimalDoacaoInteressado {
     private Integer id;
 
     @Column(nullable = false)
-    private AnimalDoacaoInteressadoStatus status;
+    private AnimalDoacaoInteressadoStatus status = AnimalDoacaoInteressadoStatus.AGUARDANDO_RESPOSTA;
 
     @ManyToOne
     @JoinColumn(nullable = false)

@@ -28,9 +28,6 @@ public class Animal {
     @Column(nullable = true)
     private String imagemUrl;
 
-    @Column(nullable = false)
-    private String localizacao;
-
     public Integer getId() {
         return id;
     }
@@ -87,11 +84,4 @@ public class Animal {
         this.imagemUrl = imagemUrl;
     }
 
-    public String getLocalizacao() {
-        return localizacao;
-    }
-
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
-    }
 }

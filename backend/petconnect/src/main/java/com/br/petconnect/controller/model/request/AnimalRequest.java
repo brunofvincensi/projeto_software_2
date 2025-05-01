@@ -5,30 +5,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class AnimalRequest {
 
-    private Integer id;
-
     private String nome;
-
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private AnimalEspecie especie;
-
     private String raca;
-
     private Integer idade;
-
     private String descricao;
-
     private String imagemUrl;
-
-    private String localizacao;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -78,11 +61,4 @@ public class AnimalRequest {
         this.imagemUrl = imagemUrl;
     }
 
-    public String getLocalizacao() {
-        return localizacao;
-    }
-
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
-    }
 }

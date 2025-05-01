@@ -1,5 +1,6 @@
 package com.br.petconnect.controller;
 
+import com.br.petconnect.service.SecurityUserServiceImpl;
 import com.br.petconnect.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +14,8 @@ public abstract class PetConnetBaseController {
     @Autowired
     private HttpServletRequest servletRequest;
 
+    @Autowired
+    protected SecurityUserServiceImpl securityUserService;
 
     protected String getUsernameFromRequest() throws Exception {
         String token = getValidJwt();

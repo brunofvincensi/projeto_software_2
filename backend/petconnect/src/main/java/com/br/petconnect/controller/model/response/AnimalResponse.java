@@ -10,7 +10,6 @@ public class AnimalResponse {
     private Integer idade;
     private String descricao;
     private String imagemUrl;
-    private String localizacao;
 
     public String getNome() {
         return nome;
@@ -58,14 +57,6 @@ public class AnimalResponse {
 
     public void setImagemUrl(String imagemUrl) {
         this.imagemUrl = imagemUrl;
-    }
-
-    public String getLocalizacao() {
-        return localizacao;
-    }
-
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
     }
 
 }

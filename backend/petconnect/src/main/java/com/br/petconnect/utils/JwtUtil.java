@@ -3,6 +3,7 @@ package com.br.petconnect.utils;
 import com.br.petconnect.model.SecurityUser;
 import com.br.petconnect.service.SecurityUserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,9 @@ public class JwtUtil {
     private static final String secret = "FeQfrEjhH292K1KBUCdfqQSx8aMFdsawKEL7h8mdthBNFQVE2Hpda3g2RthpWk8kLfBP7cHX5Gfmcdx7DJXN2quS";
     private static final long expirationMs = TimeUnit.MINUTES.toMillis(30);
     private static final long refreshExpirationMs = TimeUnit.HOURS.toMillis(1);
+
+    @Autowired
+    private SecurityUserServiceImpl securityUserService;
 
     /**
      * Gera o token de login conforme as informações do usuário.
@@ -144,19 +148,10 @@ public class JwtUtil {
         String username = claims.getSubject();  // Aqui, normalmente, você pega o 'sub', que seria o nome de usuário
 
         // Carregando o UserDetails
-        UserDetails userDetails = new SecurityUserServiceImpl().loadUserByUsername(username);
+        UserDetails userDetails = securityUserService.loadUserByUsername(username);
 
         // Retorna uma instância de Authentication, que será armazenada no SecurityContextHolder
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
-
-    // Método para obter as claims a partir do token JWT
-//    private Claims getClaims(String token) {
-//        return Jwts.parserBuilder()
-//                .setSigningKey(secret.getBytes())
-//                .build()
-//                .parseClaimsJws(token)
-//                .getBody();
-//    }
 
 }

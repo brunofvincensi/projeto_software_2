@@ -13,7 +13,6 @@ public class AnimalConverter {
         animalResponse.setNome(animal.getNome());
         animalResponse.setIdade(animal.getIdade());
         animalResponse.setRaca(animal.getRaca());
-        animalResponse.setLocalizacao(animal.getLocalizacao());
         animalResponse.setImagemUrl(animal.getImagemUrl());
         animalResponse.setDescricao(animal.getDescricao());
         return animalResponse;
@@ -26,7 +25,6 @@ public class AnimalConverter {
         animal.setNome(animalRequest.getNome());
         animal.setIdade(animalRequest.getIdade());
         animal.setRaca(animalRequest.getRaca());
-        animal.setLocalizacao(animalRequest.getLocalizacao());
         animal.setImagemUrl(animalRequest.getImagemUrl());
         animal.setDescricao(animalRequest.getDescricao());
         return animal;
