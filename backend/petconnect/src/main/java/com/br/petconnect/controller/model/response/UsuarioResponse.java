@@ -1,33 +1,15 @@
-package com.br.petconnect.controller.model.request;
-
-import com.br.petconnect.model.Role;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
+package com.br.petconnect.controller.model.response;
 
 import java.time.LocalDate;
 
-public class UsuarioRequest {
+public class UsuarioResponse {
 
-    @Email
-    @NotBlank
     private String email;
-
-    @NotBlank
-    @Length(min = 8)
-    private String senha;
-
-    @NotBlank
     private String nome;
-
-    @NotBlank
     private String telefone;
-
-    @NotNull
+    private String imagemUrl;
     private LocalDate dataNascimento;
-
-    private Role role;
+    private Double avaliacao;
 
     public String getEmail() {
         return email;
@@ -35,14 +17,6 @@ public class UsuarioRequest {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getNome() {
@@ -61,6 +35,14 @@ public class UsuarioRequest {
         this.telefone = telefone;
     }
 
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
+    }
+
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
@@ -69,11 +51,12 @@ public class UsuarioRequest {
         this.dataNascimento = dataNascimento;
     }
 
-    public Role getRole() {
-        return role;
+    public Double getAvaliacao() {
+        return avaliacao;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setAvaliacao(Double avaliacao) {
+        this.avaliacao = avaliacao;
     }
+
 }

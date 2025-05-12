@@ -1,14 +1,16 @@
 package com.br.petconnect.controller;
 
 import com.br.petconnect.controller.model.request.LoginRequest;
+import com.br.petconnect.controller.model.request.UsuarioAvaliacaoRequest;
 import com.br.petconnect.controller.model.request.UsuarioRequest;
 import com.br.petconnect.controller.model.response.LoginResponse;
+import com.br.petconnect.controller.model.response.UsuarioResponse;
 import com.br.petconnect.model.Role;
 import com.br.petconnect.model.SecurityUser;
 import com.br.petconnect.model.Usuario;
+import com.br.petconnect.model.UsuarioAvaliacao;
+import com.br.petconnect.repository.UsuarioAvaliacaoRepository;
 import com.br.petconnect.repository.UsuarioRepository;
-import com.br.petconnect.utils.JwtUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
@@ -30,25 +29,26 @@ import java.time.LocalDate;
 public class UsuarioController extends PetConnetBaseController {
 
     @Autowired
-    private JwtUtil jwtUtils;
-
-    @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private HttpServletRequest servletRequest;
+    private UsuarioAvaliacaoRepository usuarioAvaliacaoRepository;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @PostMapping
     public ResponseEntity<?> cadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest) {
+        if (usuarioRequest == null || Role.ADMIN.equals(usuarioRequest.getRole())) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioRequest.getNome());
         usuario.setEmail(usuarioRequest.getEmail());
         usuario.setDataNascimento(usuarioRequest.getDataNascimento());
         usuario.setDataCriacao(LocalDate.now());
-        usuario.setRole(Role.CLIENTE);
+        usuario.setRole(usuarioRequest.getRole());
         usuario.setTelefone(usuarioRequest.getTelefone());
 
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
@@ -97,6 +97,34 @@ public class UsuarioController extends PetConnetBaseController {
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autorizado");
+    }
+
+    @PostMapping("/avaliar")
+    public ResponseEntity<?> avaliar(@RequestBody @Valid UsuarioAvaliacaoRequest usuarioAvaliacaoRequest) throws Exception {
+        UsuarioAvaliacao usuarioAvaliacao = new UsuarioAvaliacao();
+
+        usuarioAvaliacao.setAvaliador(securityUserService.loadUserEntityByUsername(getUsernameFromRequest()));
+        usuarioAvaliacao.setAvaliado(usuarioRepository.findById(usuarioAvaliacaoRequest.getIdUsuario()).orElseThrow(() -> new Exception("Usuário não existe")));
+        usuarioAvaliacao.setNota(usuarioAvaliacaoRequest.getNota());
+        usuarioAvaliacao.setComentario(usuarioAvaliacaoRequest.getObservacao());
+
+        usuarioAvaliacaoRepository.save(usuarioAvaliacao);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable Long id) throws Exception {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new Exception("Usuário não existe"));
+
+        UsuarioResponse usuarioResponse = new UsuarioResponse();
+        usuarioResponse.setEmail(usuario.getEmail());
+        usuarioResponse.setNome(usuario.getNome());
+        usuarioResponse.setTelefone(usuario.getTelefone());
+        usuarioResponse.setImagemUrl(usuario.getImagemUrl());
+        usuarioResponse.setDataNascimento(usuario.getDataNascimento());
+        usuarioResponse.setAvaliacao(usuario.getMediaAvaliacao());
+
+        return ResponseEntity.ok(usuarioResponse);
     }
 
 }

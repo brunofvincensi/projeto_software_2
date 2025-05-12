@@ -21,15 +21,12 @@ public class AnimalDesaparecidoController extends PetConnetBaseController {
     private AnimalDesaparecidoRepository animalDesaparecidoRepository;
 
     @PostMapping
-    public void publicarDoacao(@Valid @RequestBody AnimalDesaparecidoRequest animalDesaparecidoRequest) throws Exception {
-        if (animalDesaparecidoRequest == null || animalDesaparecidoRequest.getAnimal() == null) {
-            throw new Exception("Dados inválidos");
-        }
+    public void publicarAnimalDesaparecido(@Valid @RequestBody AnimalDesaparecidoRequest animalDesaparecidoRequest) throws Exception {
         animalDesaparecidoRepository.save(convertAnimalDesaparecido(animalDesaparecidoRequest, getUsernameFromRequest()));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<AnimalDesaparecidoResponse>> buscaDoacoes() {
+    public ResponseEntity<List<AnimalDesaparecidoResponse>> buscaAnimalDesaparecido() {
         List<AnimalDesaparecidoResponse> list = animalDesaparecidoRepository
                 .findAll()
                 .stream()
@@ -39,7 +36,7 @@ public class AnimalDesaparecidoController extends PetConnetBaseController {
     }
 
     @DeleteMapping("/{id}")
-    public void removerDoacao(@PathVariable Long id) {
+    public void removerAnimalDesaparecido(@PathVariable Long id) {
         animalDesaparecidoRepository.deleteById(id);
     }
 

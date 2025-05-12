@@ -30,9 +30,6 @@ public class AnimalDoacaoController extends PetConnetBaseController {
 
     @PostMapping
     public ResponseEntity<?> publicarDoacao(@Valid @RequestBody AnimalDoacaoRequest animalDoacaoRequest) throws Exception {
-        if (animalDoacaoRequest == null || animalDoacaoRequest.getAnimal() == null) {
-            return ResponseEntity.badRequest().body("Dados inválidos");
-        }
         AnimalDoacao animalDoacao = convertAnimalDoacao(animalDoacaoRequest, getUsernameFromRequest());
         animalDoacao.setDataPublicacao(LocalDate.now());
         return ResponseEntity.ok(convertAnimalDoacaoResponse(animalDoacaoRepository.save(animalDoacao)));
@@ -48,10 +45,10 @@ public class AnimalDoacaoController extends PetConnetBaseController {
         return ResponseEntity.ok(list);
     }
 
-    @PostMapping("/interesse")
-    public ResponseEntity<?> registrarInteresse(@RequestBody Long idDoacao) throws Exception {
+    @PostMapping("/interesse/{id}")
+    public ResponseEntity<?> registrarInteresse(@PathVariable Long id) throws Exception {
         Usuario usuario = securityUserService.loadUserEntityByUsername(getUsernameFromRequest());
-        AnimalDoacao animalDoacao = animalDoacaoRepository.findById(idDoacao).orElse(null);
+        AnimalDoacao animalDoacao = animalDoacaoRepository.findById(id).orElse(null);
         if (animalDoacao == null) {
             return ResponseEntity.badRequest().body("Doação não existe");
         }

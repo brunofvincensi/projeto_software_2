@@ -2,6 +2,7 @@ package com.br.petconnect.service;
 
 import com.br.petconnect.model.SecurityUser;
 import com.br.petconnect.model.Usuario;
+import com.br.petconnect.repository.UsuarioAvaliacaoRepository;
 import com.br.petconnect.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,9 @@ public class SecurityUserServiceImpl implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioAvaliacaoRepository usuarioAvaliacaoRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

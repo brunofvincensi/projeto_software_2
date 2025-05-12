@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
@@ -11,7 +13,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotBlank
     @Column(name = "email", nullable = false, unique = true)
@@ -41,11 +43,14 @@ public class Usuario {
     @Enumerated(value = EnumType.ORDINAL)
     private Role role;
 
-    public Integer getId() {
+    @OneToMany(mappedBy = "avaliado")
+    private List<UsuarioAvaliacao> avaliacaos = new ArrayList<>();
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -112,4 +117,17 @@ public class Usuario {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public List<UsuarioAvaliacao> getAvaliacaos() {
+        return avaliacaos;
+    }
+
+    public void setAvaliacaos(List<UsuarioAvaliacao> avaliacaos) {
+        this.avaliacaos = avaliacaos;
+    }
+
+    public Double getMediaAvaliacao() {
+        return avaliacaos.stream().mapToInt(UsuarioAvaliacao::getNota).average().orElse(5.0);
+    }
+
 }

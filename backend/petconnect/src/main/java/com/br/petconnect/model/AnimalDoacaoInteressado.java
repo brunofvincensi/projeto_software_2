@@ -11,10 +11,7 @@ public class AnimalDoacaoInteressado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false)
-    private AnimalDoacaoInteressadoStatus status = AnimalDoacaoInteressadoStatus.AGUARDANDO_RESPOSTA;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -24,20 +21,12 @@ public class AnimalDoacaoInteressado {
     @JoinColumn(nullable = false)
     private Usuario usuario;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public AnimalDoacaoInteressadoStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AnimalDoacaoInteressadoStatus status) {
-        this.status = status;
     }
 
     public AnimalDoacao getAnimalDoacao() {

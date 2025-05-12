@@ -2,7 +2,10 @@ package com.br.petconnect.model;
 
 public enum Role {
 
-    CLIENTE,
+    NORMAL,
+
+    ABRIGO_ANIMAIS,
+
     ADMIN
 
 }

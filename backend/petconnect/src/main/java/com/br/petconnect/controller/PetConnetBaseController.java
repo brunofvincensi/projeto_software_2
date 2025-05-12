@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class PetConnetBaseController {
 
     @Autowired
-    private JwtUtil jwtUtils;
+    protected JwtUtil jwtUtils;
 
     @Autowired
-    private HttpServletRequest servletRequest;
+    protected HttpServletRequest servletRequest;
 
     @Autowired
     protected SecurityUserServiceImpl securityUserService;
