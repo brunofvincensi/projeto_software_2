@@ -101,6 +101,10 @@ public class UsuarioController extends PetConnetBaseController {
 
     @PostMapping("/avaliar")
     public ResponseEntity<?> avaliar(@RequestBody @Valid UsuarioAvaliacaoRequest usuarioAvaliacaoRequest) throws Exception {
+        if (usuarioAvaliacaoRequest.getNota() < 0 || usuarioAvaliacaoRequest.getNota() > 5) {
+            return ResponseEntity.badRequest().build();
+        }
+
         UsuarioAvaliacao usuarioAvaliacao = new UsuarioAvaliacao();
 
         usuarioAvaliacao.setAvaliador(securityUserService.loadUserEntityByUsername(getUsernameFromRequest()));
