@@ -24,6 +24,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { AppRoutingModule } from './app-routing.module';
+import { ButtonComponent } from './shared/components/button/button.component';
+import { CardComponent } from './shared/components/card/card.component';
+import { InputComponent } from './shared/components/input/input.component';
+import { SharedModule } from './shared/shared.module';
 
 // Remove all component imports since they are standalone
 // import { AppComponent } from './app.component';
@@ -42,6 +46,9 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [
     // Remove all component declarations since they are standalone
+
+    CardComponent,
+    InputComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +73,10 @@ import { AppRoutingModule } from './app-routing.module';
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressBarModule,
-    MatDividerModule
+    MatDividerModule,
+    ButtonComponent,
+    SharedModule
+
   ],
   providers: [],
   bootstrap: [] // Remove AppComponent from bootstrap since it's standalone

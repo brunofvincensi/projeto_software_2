@@ -1,0 +1,7 @@
+<label>
+  {{ label }}
+  <input [formControl]="control" [type]="type">
+</label>
+<div *ngIf="control.invalid && control.touched" class="error">
+  Campo obrigatório.
+</div>
