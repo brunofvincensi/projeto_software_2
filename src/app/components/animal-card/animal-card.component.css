@@ -1,0 +1,57 @@
+.animal-card {
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 350px;
+  margin: 16px;
+  cursor: pointer;
+}
+
+.animal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.card-header {
+  position: relative;
+  overflow: hidden;
+}
+
+.animal-image {
+  height: 250px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.animal-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.animal-description {
+  margin: 12px 0;
+  line-height: 1.5;
+  max-height: 3em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.owner-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: #666;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.star {
+  color: #ffd700;
+  font-size: 16px;
+}

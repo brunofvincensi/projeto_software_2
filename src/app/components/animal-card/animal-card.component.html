@@ -1,0 +1,42 @@
+<mat-card class="animal-card">
+  <div class="card-header">
+    <img mat-card-image
+         [src]="animalDoacao.animal.imagemUrl || '/assets/images/no-pet-image.jpg'"
+         [alt]="animalDoacao.animal.nome"
+         class="animal-image">
+    <div class="animal-badge">
+      <mat-chip [class]="getEspecieClass(animalDoacao.animal.especie)">
+        <mat-icon>{{ getEspecieIcon(animalDoacao.animal.especie) }}</mat-icon>
+        {{ animalDoacao.animal.especie }}
+      </mat-chip>
+    </div>
+  </div>
+
+  <mat-card-header>
+    <mat-card-title>{{ animalDoacao.animal.nome }}</mat-card-title>
+    <mat-card-subtitle>{{ animalDoacao.animal.raca || 'SRD' }} • {{ animalDoacao.animal.idade }} ano(s)</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="animal-description">{{ animalDoacao.descricao }}</p>
+    <div class="owner-info">
+      <mat-icon>person</mat-icon>
+      <span>{{ animalDoacao.doador.nome }}</span>
+      <div class="rating" *ngIf="animalDoacao.doador.mediaAvaliacao">
+        <mat-icon class="star">star</mat-icon>
+        <span>{{ animalDoacao.doador.mediaAvaliacao | number:'1.1-1' }}</span>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions *ngIf="showActions">
+    <button mat-button color="primary" (click)="onViewDetails()">
+      <mat-icon>visibility</mat-icon>
+      Ver Detalhes
+    </button>
+    <button mat-raised-button color="primary" (click)="onInterest()" [disabled]="animalDoacao.adotado">
+      <mat-icon>favorite</mat-icon>
+      {{ animalDoacao.adotado ? 'Adotado' : 'Tenho Interesse' }}
+    </button>
+  </mat-card-actions>
+</mat-card>

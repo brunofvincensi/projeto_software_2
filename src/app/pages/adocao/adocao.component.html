@@ -1,0 +1,89 @@
+<div class="adocao-container">
+  <div class="page-header">
+    <h1>Adoção de Pets</h1>
+    <p>Encontre seu novo melhor amigo entre nossos pets disponíveis para adoção</p>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-section">
+    <div class="filters-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Buscar por nome ou raça</mat-label>
+        <input matInput [(ngModel)]="filters.search" (input)="applyFilters()" placeholder="Ex: Max, Golden...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Espécie</mat-label>
+        <mat-select [(ngModel)]="filters.especie" (selectionChange)="applyFilters()">
+          <mat-option value="">Todas</mat-option>
+          <mat-option *ngFor="let especie of especies" [value]="especie">
+            {{ especie }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Idade</mat-label>
+        <mat-select [(ngModel)]="filters.idade">
+          <mat-option value="">Todas</mat-option>
+          <mat-option *ngFor="let idade of idades" [value]="idade">
+            {{ idade }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Localização</mat-label>
+        <mat-select [(ngModel)]="filters.localizacao">
+          <mat-option value="">Todas</mat-option>
+          <mat-option *ngFor="let local of localizacoes" [value]="local">
+            {{ local }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-stroked-button (click)="clearFilters()" class="clear-filters">
+        <mat-icon>clear</mat-icon>
+        Limpar Filtros
+      </button>
+    </div>
+  </div>
+
+  <!-- Resultados -->
+  <div class="results-section">
+    <div class="results-header">
+      <h2>{{ filteredAnimals.length }} pets encontrados</h2>
+      <div class="filter-chips" *ngIf="filters.especie || filters.search">
+        <mat-chip-set>
+          <mat-chip *ngIf="filters.especie" (removed)="filters.especie = ''; applyFilters()">
+            {{ filters.especie }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <mat-chip *ngIf="filters.search" (removed)="filters.search = ''; applyFilters()">
+            "{{ filters.search }}"
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+
+    <div class="animals-grid" *ngIf="filteredAnimals.length > 0">
+      <app-animal-card
+        *ngFor="let animal of filteredAnimals"
+        [animalDoacao]="animal"
+        (viewDetails)="onViewDetails($event)"
+        (interest)="onInterest($event)">
+      </app-animal-card>
+    </div>
+
+    <div class="no-results" *ngIf="filteredAnimals.length === 0">
+      <mat-icon>pets</mat-icon>
+      <h3>Nenhum pet encontrado</h3>
+      <p>Tente ajustar os filtros ou remover alguns critérios de busca</p>
+      <button mat-raised-button color="primary" (click)="clearFilters()">
+        Ver Todos os Pets
+      </button>
+    </div>
+  </div>
+</div>

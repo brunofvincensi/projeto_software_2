@@ -1,0 +1,51 @@
+<mat-toolbar color="primary" class="app-header">
+  <div class="header-container">
+    <div class="logo-section">
+      <a routerLink="/" class="logo">
+        <mat-icon>pets</mat-icon>
+        <span>PetConnect</span>
+      </a>
+    </div>
+
+    <nav class="nav-menu">
+      <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>home</mat-icon>
+        Início
+      </a>
+      <a mat-button routerLink="/adocao" routerLinkActive="active-link">
+        <mat-icon>favorite</mat-icon>
+        Adoção
+      </a>
+    </nav>
+
+    <div class="auth-section">
+      <div *ngIf="!isLoggedIn">
+        <a mat-raised-button color="accent" routerLink="/login">
+          <mat-icon>login</mat-icon>
+          Entrar
+        </a>
+      </div>
+
+      <div *ngIf="isLoggedIn" class="user-menu">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>person</mat-icon>
+            Meu Perfil
+          </button>
+          <button mat-menu-item>
+            <mat-icon>pets</mat-icon>
+            Meus Pets
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            Sair
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>

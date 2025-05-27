@@ -1,0 +1,95 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Encontre seu melhor amigo</h1>
+      <p>No PetConnect, conectamos corações humanos com patinhas que precisam de um lar cheio de amor.</p>
+      <div class="hero-actions">
+        <a mat-raised-button color="primary" routerLink="/adocao" class="cta-button">
+          <mat-icon>favorite</mat-icon>
+          Quero Adotar
+        </a>
+        <button mat-stroked-button color="primary" class="secondary-button">
+          <mat-icon>pets</mat-icon>
+          Como Funciona
+        </button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600" alt="Pet feliz">
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stats-container">
+      <div class="stat-item">
+        <mat-icon>pets</mat-icon>
+        <h3>{{ stats.animalsAdopted }}</h3>
+        <p>Animais Adotados</p>
+      </div>
+      <div class="stat-item">
+        <mat-icon>favorite</mat-icon>
+        <h3>{{ stats.animalsAvailable }}</h3>
+        <p>Disponíveis para Adoção</p>
+      </div>
+      <div class="stat-item">
+        <mat-icon>home</mat-icon>
+        <h3>{{ stats.happyFamilies }}</h3>
+        <p>Famílias Felizes</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Animals -->
+  <section class="featured-section">
+    <div class="section-header">
+      <h2>Pets em Destaque</h2>
+      <p>Conheça alguns dos nossos amiguinhos que estão procurando um lar</p>
+    </div>
+
+    <div class="animals-grid">
+      <app-animal-card
+        *ngFor="let animal of featuredAnimals"
+        [animalDoacao]="animal"
+        (viewDetails)="onViewDetails($event)"
+        (interest)="onInterest($event)">
+      </app-animal-card>
+    </div>
+
+    <div class="see-more">
+      <a mat-raised-button color="primary" routerLink="/adocao">
+        Ver Todos os Pets
+        <mat-icon>arrow_forward</mat-icon>
+      </a>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <h2>Como Funciona</h2>
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-icon">
+          <mat-icon>search</mat-icon>
+        </div>
+        <h3>1. Procure</h3>
+        <p>Navegue pelos pets disponíveis e encontre o ideal para você</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">
+          <mat-icon>favorite</mat-icon>
+        </div>
+        <h3>2. Conecte</h3>
+        <p>Entre em contato com o doador e agende uma visita</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">
+          <mat-icon>home</mat-icon>
+        </div>
+        <h3>3. Adote</h3>
+        <p>Complete o processo e leve seu novo amigo para casa</p>
+      </div>
+    </div>
+  </section>
+</div>
