@@ -1,77 +1,56 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-
-// Create the model interface if it doesn't exist
-export interface AnimalDoacao {
-  id: number;
-  animal: {
-    nome: string;
-    especie: string;
-    raca?: string;
-    idade: number;
-    imagemUrl?: string;
-  };
-  descricao: string;
-  doador: {
-    nome: string;
-    mediaAvaliacao?: number;
-  };
-  adotado: boolean;
-}
+import { Component, Input } from '@angular/core';
+import { Animal } from '../../models/Animal';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-animal-card',
-  templateUrl: './animal-card.component.html',
-  styleUrls: ['./animal-card.component.css'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatChipsModule
-  ]
+  selector: 'app-pet-card',
+  templateUrl: '../animal-card/animal-card.component.html',
+  styleUrls: ['../animal-card/animal-card.component.css']
 })
-export class AnimalCardComponent {
-  @Input() animalDoacao!: AnimalDoacao;
-  @Input() showActions: boolean = true;
+export class PetCardComponent {
+  @Input() pet!: Animal;
 
-  @Output() viewDetails = new EventEmitter<AnimalDoacao>();
-  @Output() interest = new EventEmitter<AnimalDoacao>();
+  constructor(private router: Router) {}
 
-  onViewDetails() {
-    this.viewDetails.emit(this.animalDoacao);
+  viewDetails() {
+    this.router.navigate(['/pets', this.pet.id]);
   }
 
-  onInterest() {
-    this.interest.emit(this.animalDoacao);
+  adoptPet() {
+    this.router.navigate(['/adopt', this.pet.id]);
   }
 
-  getEspecieClass(especie: string): string {
-    switch (especie.toLowerCase()) {
-      case 'cão':
-      case 'cachorro':
-        return 'especie-cao';
-      case 'gato':
-        return 'especie-gato';
-      default:
-        return 'especie-outros';
+  getSpeciesName(species: string): string {
+    const speciesMap: { [key: string]: string } = {
+      'DOG': 'Cachorro',
+      'CAT': 'Gato',
+      'BIRD': 'Pássaro',
+      'OTHER': 'Outro'
+    };
+    return speciesMap[species] || species;
+  }
+
+  getSizeName(size: string): string {
+    const sizeMap: { [key: string]: string } = {
+      'SMALL': 'Pequeno',
+      'MEDIUM': 'Médio',
+      'LARGE': 'Grande'
+    };
+    return sizeMap[size] || size;
+  }
+
+  getGenderName(gender: string): string {
+    const genderMap: { [key: string]: string } = {
+      'MALE': 'Macho',
+      'FEMALE': 'Fêmea'
+    };
+    return genderMap[gender] || gender;
+  }
+
+  truncateDescription(description: string, maxLength: number = 100): string {
+    if (description.length <= maxLength) {
+      return description;
     }
-  }
-
-  getEspecieIcon(especie: string): string {
-    switch (especie.toLowerCase()) {
-      case 'cão':
-      case 'cachorro':
-        return 'pets';
-      case 'gato':
-        return 'pets';
-      default:
-        return 'pets';
-    }
+    return description.substring(0, maxLength) + '...';
   }
 }

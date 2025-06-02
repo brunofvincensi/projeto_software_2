@@ -74,7 +74,7 @@ import { SharedModule } from './shared/shared.module';
     MatNativeDateModule,
     MatProgressBarModule,
     MatDividerModule,
-    ButtonComponent,
+    //ButtonComponent,
     SharedModule
 
   ],

@@ -1,0 +1,240 @@
+<!-- register.component.html -->
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <i class="fas fa-paw"></i>
+      <h1>Criar Conta</h1>
+      <p>Junte-se à nossa comunidade de adoção</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+      <!-- Nome Completo -->
+      <div class="form-group">
+        <label for="name">Nome Completo *</label>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            [class.invalid]="isFieldInvalid('name')"
+            placeholder="Digite seu nome completo"
+            autocomplete="name">
+          <i class="fas fa-user input-icon"></i>
+        </div>
+        <div class="form-error" *ngIf="isFieldInvalid('name')">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getFieldError('name') }}
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <div class="input-wrapper">
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            [class.invalid]="isFieldInvalid('email')"
+            placeholder="Digite seu email"
+            autocomplete="email">
+          <i class="fas fa-envelope input-icon"></i>
+        </div>
+        <div class="form-error" *ngIf="isFieldInvalid('email')">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <!-- Telefone -->
+      <div class="form-group">
+        <label for="phone">Telefone *</label>
+        <div class="input-wrapper">
+          <input
+            type="tel"
+            id="phone"
+            formControlName="phone"
+            class="form-control"
+            [class.invalid]="isFieldInvalid('phone')"
+            placeholder="(11) 99999-9999"
+            autocomplete="tel">
+          <i class="fas fa-phone input-icon"></i>
+        </div>
+        <div class="form-error" *ngIf="isFieldInvalid('phone')">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getFieldError('phone') }}
+        </div>
+      </div>
+
+      <!-- Senha -->
+      <div class="form-group">
+        <label for="password">Senha *</label>
+        <div class="input-wrapper">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [class.invalid]="isFieldInvalid('password')"
+            placeholder="Digite sua senha"
+            autocomplete="new-password">
+          <i class="fas fa-lock input-icon"></i>
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility('password')"
+            [attr.aria-label]="passwordVisible ? 'Ocultar senha' : 'Mostrar senha'">
+            <i [class]="passwordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+
+        <!-- Password Strength Indicator -->
+        <div class="password-strength" *ngIf="registerForm.get('password')?.value">
+          <div class="strength-bar">
+            <div class="strength-fill" [class]="getPasswordStrengthClass()"></div>
+          </div>
+          <span class="strength-text">Força da senha: {{ getPasswordStrength() }}</span>
+        </div>
+
+        <div class="form-error" *ngIf="isFieldInvalid('password')">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getFieldError('password') }}
+        </div>
+
+        <!-- Password Requirements -->
+        <div class="password-requirements" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.value">
+          <small>Sua senha deve conter:</small>
+          <ul>
+            <li [class.valid]="registerForm.get('password')?.value?.length >= 8">
+              <i [class]="registerForm.get('password')?.value?.length >= 8 ? 'fas fa-check' : 'fas fa-times'"></i>
+              Pelo menos 8 caracteres
+            </li>
+            <li [class.valid]="/[A-Z]/.test(registerForm.get('password')?.value || '')">
+              <i [class]="/[A-Z]/.test(registerForm.get('password')?.value || '') ? 'fas fa-check' : 'fas fa-times'"></i>
+              Uma letra maiúscula
+            </li>
+            <li [class.valid]="/[a-z]/.test(registerForm.get('password')?.value || '')">
+              <i [class]="/[a-z]/.test(registerForm.get('password')?.value || '') ? 'fas fa-check' : 'fas fa-times'"></i>
+              Uma letra minúscula
+            </li>
+            <li [class.valid]="/\d/.test(registerForm.get('password')?.value || '')">
+              <i [class]="/\d/.test(registerForm.get('password')?.value || '') ? 'fas fa-check' : 'fas fa-times'"></i>
+              Um número
+            </li>
+            <li [class.valid]="/[!@#$%^&*(),.?\":{}|<>]/.test(registerForm.get('password')?.value || '')">
+              <i [class]="/[!@#$%^&*(),.?\":{}|<>]/.test(registerForm.get('password')?.value || '') ? 'fas fa-check' : 'fas fa-times'"></i>
+              Um caractere especial
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Confirmar Senha -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Senha *</label>
+        <div class="input-wrapper">
+          <input
+            [type]="confirmPasswordVisible ? 'text' : 'password'"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            class="form-control"
+            [class.invalid]="isFieldInvalid('confirmPassword')"
+            placeholder="Confirme sua senha"
+            autocomplete="new-password">
+          <i class="fas fa-lock input-icon"></i>
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility('confirmPassword')"
+            [attr.aria-label]="confirmPasswordVisible ? 'Ocultar senha' : 'Mostrar senha'">
+            <i [class]="confirmPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="form-error" *ngIf="isFieldInvalid('confirmPassword')">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ getFieldError('confirmPassword') }}
+        </div>
+      </div>
+
+      <!-- Termos de Uso -->
+      <div class="form-group">
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              formControlName="agreedToTerms"
+              [class.invalid]="isFieldInvalid('agreedToTerms')">
+            <span class="checkmark"></span>
+            <span class="checkbox-text">
+              Eu concordo com os
+              <a href="/terms" target="_blank" rel="noopener noreferrer">termos de uso</a>
+              e
+              <a href="/privacy" target="_blank" rel="noopener noreferrer">política de privacidade</a>
+            </span>
+          </label>
+          <div class="form-error" *ngIf="isFieldInvalid('agreedToTerms')">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ getFieldError('agreedToTerms') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="error">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ error }}</span>
+        <button type="button" class="error-close" (click)="error = ''" aria-label="Fechar erro">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn btn-primary btn-full"
+        [disabled]="registerForm.invalid || loading"
+        [attr.aria-label]="loading ? 'Criando conta, aguarde...' : 'Criar conta'">
+        <span class="btn-content">
+          <i class="fas fa-spinner fa-spin" *ngIf="loading"></i>
+          <i class="fas fa-user-plus" *ngIf="!loading"></i>
+          <span>{{ loading ? 'Criando Conta...' : 'Criar Conta' }}</span>
+        </span>
+      </button>
+
+      <!-- Form Progress -->
+      <div class="form-progress" *ngIf="!registerForm.pristine">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="getFormProgress()"></div>
+        </div>
+        <small>Progresso do formulário</small>
+      </div>
+    </form>
+
+    <!-- Auth Footer -->
+    <div class="auth-footer">
+      <p>
+        Já tem uma conta?
+        <a href="#" (click)="navigateToLogin()" class="link-primary">Faça login</a>
+      </p>
+
+      <div class="auth-help">
+        <p>
+          <small>
+            Precisa de ajuda?
+            <a href="/contact" class="link-secondary">Entre em contato</a>
+          </small>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="loading-spinner">
+      <i class="fas fa-paw fa-spin"></i>
+      <p>Criando sua conta...</p>
+    </div>
+  </div>
+</div>

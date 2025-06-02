@@ -1,51 +1,113 @@
-<mat-toolbar color="primary" class="app-header">
-  <div class="header-container">
-    <div class="logo-section">
-      <a routerLink="/" class="logo">
-        <mat-icon>pets</mat-icon>
+<header class="main-header">
+  <div class="container">
+    <div class="header-content">
+      <!-- Logo -->
+      <div class="logo" (click)="navigateTo('/')">
+        <i class="fas fa-paw"></i>
         <span>PetConnect</span>
-      </a>
-    </div>
-
-    <nav class="nav-menu">
-      <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
-        <mat-icon>home</mat-icon>
-        Início
-      </a>
-      <a mat-button routerLink="/adocao" routerLinkActive="active-link">
-        <mat-icon>favorite</mat-icon>
-        Adoção
-      </a>
-    </nav>
-
-    <div class="auth-section">
-      <div *ngIf="!isLoggedIn">
-        <a mat-raised-button color="accent" routerLink="/login">
-          <mat-icon>login</mat-icon>
-          Entrar
-        </a>
       </div>
 
-      <div *ngIf="isLoggedIn" class="user-menu">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>account_circle</mat-icon>
+      <!-- Desktop Navigation -->
+      <nav class="desktop-nav">
+        <ul class="nav-links">
+          <li><a (click)="navigateTo('/')" [class.active]="router.url === '/'">Início</a></li>
+          <li><a (click)="navigateTo('/pets')" [class.active]="router.url === '/pets'">Pets</a></li>
+          <li><a (click)="navigateTo('/about')" [class.active]="router.url === '/about'">Sobre</a></li>
+          <li><a (click)="navigateTo('/contact')" [class.active]="router.url === '/contact'">Contato</a></li>
+        </ul>
+      </nav>
+
+      <!-- User Actions -->
+      <div class="header-actions">
+        <div *ngIf="!currentUser" class="auth-buttons">
+          <button class="btn btn-outline btn-small" (click)="navigateTo('/login')">
+            <i class="fas fa-sign-in-alt"></i>
+            Entrar
+          </button>
+          <button class="btn btn-primary btn-small" (click)="navigateTo('/register')">
+            <i class="fas fa-user-plus"></i>
+            Cadastrar
+          </button>
+        </div>
+
+        <div *ngIf="currentUser" class="user-menu">
+          <div class="user-info" (click)="toggleMenu()">
+            <div class="user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <span class="user-name">{{ currentUser.name }}</span>
+            <i class="fas fa-chevron-down" [class.rotated]="isMenuOpen"></i>
+          </div>
+
+          <div class="dropdown-menu" [class.open]="isMenuOpen">
+            <a class="dropdown-item" (click)="navigateTo('/profile')">
+              <i class="fas fa-user"></i>
+              Perfil
+            </a>
+            <a class="dropdown-item" (click)="navigateTo('/my-adoptions')">
+              <i class="fas fa-heart"></i>
+              Minhas Adoções
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              Sair
+            </a>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" (click)="toggleMenu()">
+          <i class="fas fa-bars"></i>
         </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>person</mat-icon>
-            Meu Perfil
-          </button>
-          <button mat-menu-item>
-            <mat-icon>pets</mat-icon>
-            Meus Pets
-          </button>
-          <mat-divider></mat-divider>
-          <button mat-menu-item (click)="logout()">
-            <mat-icon>logout</mat-icon>
-            Sair
-          </button>
-        </mat-menu>
       </div>
     </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" [class.open]="isMenuOpen">
+      <ul class="mobile-nav-links">
+        <li><a (click)="navigateTo('/')">Início</a></li>
+        <li><a (click)="navigateTo('/pets')">Pets</a></li>
+        <li><a (click)="navigateTo('/about')">Sobre</a></li>
+        <li><a (click)="navigateTo('/contact')">Contato</a></li>
+
+        <div class="mobile-nav-divider"></div>
+
+        <li *ngIf="!currentUser">
+          <a (click)="navigateTo('/login')">
+            <i class="fas fa-sign-in-alt"></i>
+            Entrar
+          </a>
+        </li>
+        <li *ngIf="!currentUser">
+          <a (click)="navigateTo('/register')">
+            <i class="fas fa-user-plus"></i>
+            Cadastrar
+          </a>
+        </li>
+
+        <li *ngIf="currentUser">
+          <a (click)="navigateTo('/profile')">
+            <i class="fas fa-user"></i>
+            Perfil
+          </a>
+        </li>
+        <li *ngIf="currentUser">
+          <a (click)="navigateTo('/my-adoptions')">
+            <i class="fas fa-heart"></i>
+            Minhas Adoções
+          </a>
+        </li>
+        <li *ngIf="currentUser">
+          <a (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Sair
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
-</mat-toolbar>
+
+  <!-- Overlay for mobile menu -->
+  <div class="mobile-overlay" [class.visible]="isMenuOpen" (click)="closeMenu()"></div>
+</header>

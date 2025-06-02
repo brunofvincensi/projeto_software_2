@@ -1,0 +1,185 @@
+<div class="adoption-form-container">
+  <div class="container">
+    <button class="btn btn-outline back-button" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i>
+      Voltar
+    </button>
+
+    <div class="adoption-form-card" *ngIf="pet && !success">
+      <div class="form-header">
+        <h1>Solicitação de Adoção</h1>
+        <div class="pet-summary">
+          <img *ngIf="pet.imageUrl" [src]="pet.imageUrl" [alt]="pet.name" class="pet-thumb">
+          <div class="pet-info">
+            <h3>{{ pet.name }}</h3>
+            <p>{{ pet.species }} • {{ pet.breed }}</p>
+          </div>
+        </div>
+      </div>
+
+      <form [formGroup]="adoptionForm" (ngSubmit)="onSubmit()" class="adoption-form">
+        <div class="form-section">
+          <h3>Informações Pessoais</h3>
+
+          <div class="form-group">
+            <label for="applicantName">Nome Completo *</label>
+            <input type="text" id="applicantName" formControlName="applicantName"
+                   class="form-control" [class.invalid]="adoptionForm.get('applicantName')?.invalid && adoptionForm.get('applicantName')?.touched">
+            <div class="form-error" *ngIf="adoptionForm.get('applicantName')?.invalid && adoptionForm.get('applicantName')?.touched">
+              Nome é obrigatório (mínimo 2 caracteres)
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="applicantEmail">Email *</label>
+              <input type="email" id="applicantEmail" formControlName="applicantEmail"
+                     class="form-control" [class.invalid]="adoptionForm.get('applicantEmail')?.invalid && adoptionForm.get('applicantEmail')?.touched">
+              <div class="form-error" *ngIf="adoptionForm.get('applicantEmail')?.invalid && adoptionForm.get('applicantEmail')?.touched">
+                Email válido é obrigatório
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="applicantPhone">Telefone *</label>
+              <input type="tel" id="applicantPhone" formControlName="applicantPhone"
+                     class="form-control" [class.invalid]="adoptionForm.get('applicantPhone')?.invalid && adoptionForm.get('applicantPhone')?.touched">
+              <div class="form-error" *ngIf="adoptionForm.get('applicantPhone')?.invalid && adoptionForm.get('applicantPhone')?.touched">
+                Telefone é obrigatório
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="applicantAddress">Endereço Completo *</label>
+            <textarea id="applicantAddress" formControlName="applicantAddress"
+                      class="form-control" rows="3" [class.invalid]="adoptionForm.get('applicantAddress')?.invalid && adoptionForm.get('applicantAddress')?.touched"></textarea>
+            <div class="form-error" *ngIf="adoptionForm.get('applicantAddress')?.invalid && adoptionForm.get('applicantAddress')?.touched">
+              Endereço é obrigatório
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Informações sobre Experiência</h3>
+
+          <div class="form-group">
+            <label for="hasExperience">Você já teve pets antes? *</label>
+            <select id="hasExperience" formControlName="hasExperience"
+                    class="form-control" [class.invalid]="adoptionForm.get('hasExperience')?.invalid && adoptionForm.get('hasExperience')?.touched">
+              <option value="">Selecione...</option>
+              <option value="sim">Sim, tenho experiência</option>
+              <option value="nao">Não, seria meu primeiro pet</option>
+            </select>
+            <div class="form-error" *ngIf="adoptionForm.get('hasExperience')?.invalid && adoptionForm.get('hasExperience')?.touched">
+              Esta informação é obrigatória
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="livingSpace">Tipo de moradia *</label>
+            <select id="livingSpace" formControlName="livingSpace"
+                    class="form-control" [class.invalid]="adoptionForm.get('livingSpace')?.invalid && adoptionForm.get('livingSpace')?.touched">
+              <option value="">Selecione...</option>
+              <option value="apartamento">Apartamento</option>
+              <option value="casa-quintal">Casa com quintal</option>
+              <option value="casa-sem-quintal">Casa sem quintal</option>
+              <option value="sitio-chacara">Sítio/Chácara</option>
+            </select>
+            <div class="form-error" *ngIf="adoptionForm.get('livingSpace')?.invalid && adoptionForm.get('livingSpace')?.touched">
+              Tipo de moradia é obrigatório
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="otherPets">Você tem outros pets atualmente? *</label>
+            <select id="otherPets" formControlName="otherPets"
+                    class="form-control" [class.invalid]="adoptionForm.get('otherPets')?.invalid && adoptionForm.get('otherPets')?.touched">
+              <option value="">Selecione...</option>
+              <option value="nao">Não tenho outros pets</option>
+              <option value="cachorro">Sim, tenho cachorro(s)</option>
+              <option value="gato">Sim, tenho gato(s)</option>
+              <option value="ambos">Tenho cachorros e gatos</option>
+              <option value="outros">Outros tipos de pets</option>
+            </select>
+            <div class="form-error" *ngIf="adoptionForm.get('otherPets')?.invalid && adoptionForm.get('otherPets')?.touched">
+              Esta informação é obrigatória
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Motivação e Disponibilidade</h3>
+
+          <div class="form-group">
+            <label for="motivation">Por que você quer adotar {{ pet.name }}? *</label>
+            <textarea id="motivation" formControlName="motivation"
+                      class="form-control" rows="4"
+                      placeholder="Conte-nos sobre sua motivação para adotar este pet..."
+                      [class.invalid]="adoptionForm.get('motivation')?.invalid && adoptionForm.get('motivation')?.touched"></textarea>
+            <div class="form-error" *ngIf="adoptionForm.get('motivation')?.invalid && adoptionForm.get('motivation')?.touched">
+              Motivação é obrigatória (mínimo 50 caracteres)
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="availability">Disponibilidade para cuidar do pet *</label>
+            <select id="availability" formControlName="availability"
+                    class="form-control" [class.invalid]="adoptionForm.get('availability')?.invalid && adoptionForm.get('availability')?.touched">
+              <option value="">Selecione...</option>
+              <option value="tempo-integral">Tempo integral</option>
+              <option value="meio-periodo">Meio período</option>
+              <option value="fins-semana">Principalmente fins de semana</option>
+              <option value="evenings">Noites e fins de semana</option>
+            </select>
+            <div class="form-error" *ngIf="adoptionForm.get('availability')?.invalid && adoptionForm.get('availability')?.touched">
+              Disponibilidade é obrigatória
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" formControlName="agreedToTerms">
+              <span class="checkmark"></span>
+              Eu concordo com os <a href="#" target="_blank">termos e condições</a> de adoção *
+            </label>
+            <div class="form-error" *ngIf="adoptionForm.get('agreedToTerms')?.invalid && adoptionForm.get('agreedToTerms')?.touched">
+              Você deve concordar com os termos
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" (click)="goBack()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="adoptionForm.invalid || submitting">
+            <i class="fas fa-spinner fa-spin" *ngIf="submitting"></i>
+            <i class="fas fa-heart" *ngIf="!submitting"></i>
+            {{ submitting ? 'Enviando...' : 'Enviar Solicitação' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" *ngIf="success">
+      <i class="fas fa-check-circle"></i>
+      <h2>Solicitação Enviada!</h2>
+      <p>Sua solicitação de adoção foi enviada com sucesso. Entraremos em contato em breve!</p>
+      <div class="loading-redirect">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Redirecionando...</p>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="error">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+    </div>
+  </div>
+</div>

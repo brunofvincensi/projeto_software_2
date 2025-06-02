@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../../services/auth.service';
-
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module'; // ✅ Importa o módulo correto que contém o botão
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  standalone: true // Add this if using standalone components
+  templateUrl: '../login/login.component.html',
+  styleUrls: ['../login/login.component.css'],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    MatSnackBarModule,
+    SharedModule // ✅ Aqui está a correção final
+  ]
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -42,7 +49,7 @@ export class LoginComponent {
           this.snackBar.open('Login realizado com sucesso!', 'Fechar', { duration: 3000 });
           this.router.navigate(['/']);
         },
-        error: (error) => {
+        error: () => {
           this.loading = false;
           this.snackBar.open('Email ou senha incorretos', 'Fechar', { duration: 3000 });
         }

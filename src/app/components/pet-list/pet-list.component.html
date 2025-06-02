@@ -1,0 +1,64 @@
+<div class="pets-section">
+  <div class="container">
+    <h2 class="section-title">Pets Disponíveis para Adoção</h2>
+    <p class="section-subtitle">Encontre o companheiro perfeito para sua família</p>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-group">
+        <label for="search">Buscar por nome</label>
+        <input type="text" id="search" placeholder="Nome do pet..."
+               [(ngModel)]="searchTerm" (input)="onSearchChange()">
+      </div>
+
+      <div class="filter-group">
+        <label for="species">Espécie</label>
+        <select id="species" [(ngModel)]="selectedSpecies" (change)="onSpeciesChange()">
+          <option value="">Todas</option>
+          <option value="DOG">Cachorro</option>
+          <option value="CAT">Gato</option>
+          <option value="BIRD">Pássaro</option>
+          <option value="OTHER">Outros</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="size">Porte</label>
+        <select id="size" [(ngModel)]="selectedSize" (change)="onSizeChange()">
+          <option value="">Todos</option>
+          <option value="SMALL">Pequeno</option>
+          <option value="MEDIUM">Médio</option>
+          <option value="LARGE">Grande</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading">
+      <i class="fas fa-spinner"></i>
+      <p>Carregando pets...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="error">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadPets()">Tentar Novamente</button>
+    </div>
+
+    <!-- Pets Grid -->
+    <div class="pets-grid" *ngIf="!loading && !error">
+      <app-pet-card
+        *ngFor="let pet of filteredPets"
+        [pet]="pet">
+      </app-pet-card>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && !error && filteredPets.length === 0" class="empty-state">
+      <i class="fas fa-search"></i>
+      <h3>Nenhum pet encontrado</h3>
+      <p>Tente ajustar os filtros para encontrar mais pets disponíveis</p>
+    </div>
+  </div>
+</div>

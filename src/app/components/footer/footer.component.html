@@ -1,27 +1,85 @@
-<footer class="app-footer">
-  <div class="footer-content">
-    <div class="footer-section">
-      <h3>PetConnect</h3>
-      <p>Conectando corações e patinhas desde {{ currentYear }}</p>
+<footer class="main-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <i class="fas fa-paw"></i>
+          <span>PetConnect</span>
+        </div>
+        <p class="footer-description">
+          Conectando pets e famílias com amor e responsabilidade.
+          Juntos, fazemos a diferença na vida dos animais.
+        </p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h4>Navegação</h4>
+        <ul class="footer-links">
+          <li><a href="/">Início</a></li>
+          <li><a href="/pets">Pets Disponíveis</a></li>
+          <li><a href="/about">Sobre Nós</a></li>
+          <li><a href="/contact">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Adoção</h4>
+        <ul class="footer-links">
+          <li><a href="/pets?species=DOG">Cachorros</a></li>
+          <li><a href="/pets?species=CAT">Gatos</a></li>
+          <li><a href="/pets?species=BIRD">Pássaros</a></li>
+          <li><a href="/adoption-guide">Guia de Adoção</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Suporte</h4>
+        <ul class="footer-links">
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/help">Ajuda</a></li>
+          <li><a href="/terms">Termos de Uso</a></li>
+          <li><a href="/privacy">Privacidade</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contato</h4>
+        <div class="contact-info">
+          <p>
+            <i class="fas fa-envelope"></i>
+            contato
+          </p>
+          <p>
+            <i class="fas fa-phone"></i>
+            (11) 99999-9999
+          </p>
+          <p>
+            <i class="fas fa-map-marker-alt"></i>
+            São Paulo, SP
+          </p>
+        </div>
+      </div>
     </div>
 
-    <div class="footer-section">
-      <h4>Links Úteis</h4>
-      <ul>
-        <li><a href="/adocao">Adoção</a></li>
-        <li><a href="/como-ajudar">Como Ajudar</a></li>
-        <li><a href="/contato">Contato</a></li>
-      </ul>
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <p>&copy; {{ currentYear }} PetConnect. Todos os direitos reservados.</p>
+        <p>Feito com <i class="fas fa-heart"></i> para nossos amigos de quatro patas</p>
+      </div>
     </div>
-
-    <div class="footer-section">
-      <h4>Contato</h4>
-      <p>"Email: contatopetconnect.com</p>
-      <p>Telefone: (11) 99999-9999</p>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>&copy; {{ currentYear }} PetConnect. Todos os direitos reservados.</p>
   </div>
 </footer>
