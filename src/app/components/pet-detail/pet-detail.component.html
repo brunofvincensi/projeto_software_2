@@ -14,12 +14,12 @@
       </div>
 
       <div class="pet-info-section">
-        <h1 class="pet-title">{{ pet.name }}</h1>
+        <h1 class="pet-title">{{ pet?.nome }}</h1>
 
         <div class="pet-characteristics">
           <div class="characteristic">
             <i class="fas fa-tag"></i>
-            <span>{{ getSpeciesName(pet.species) }}</span>
+            <span>{{ getSpeciesName(pet?.species) }}</span>
           </div>
           <div class="characteristic">
             <i class="fas fa-dna"></i>
@@ -27,7 +27,7 @@
           </div>
           <div class="characteristic">
             <i class="fas fa-birthday-cake"></i>
-            <span>{{ pet.age }} {{ pet.age === 1 ? 'ano' : 'anos' }}</span>
+            <span>{{ pet?.idade }} {{ pet?.idade === 1 ? 'ano' : 'anos' }}</span>
           </div>
           <div class="characteristic">
             <i class="fas fa-ruler"></i>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { Adoption } from '../models/adoption.model';
+import { AnimalDoacao } from '../models/AnimalDoacao';
 
 @Injectable({
   providedIn: 'root'
@@ -9,23 +9,28 @@ import { Adoption } from '../models/adoption.model';
 export class AdoptionService {
   constructor(private apiService: ApiService) {}
 
-  getAllAdoptions(): Observable<Adoption[]> {
-    return this.apiService.get<Adoption[]>('/adoptions');
+  getAllAdoptions(): Observable<AnimalDoacao[]> {
+    return this.apiService.get<AnimalDoacao[]>('/adoptions');
   }
 
-  getAdoptionById(id: number): Observable<Adoption> {
-    return this.apiService.get<Adoption>(`/adoptions/${id}`);
+  // Fixed: Use apiService instead of http
+  submitAdoption(adoption: AnimalDoacao): Observable<AnimalDoacao> {
+    return this.apiService.post<AnimalDoacao>('/adoptions', adoption);
   }
 
-  createAdoptionRequest(adoption: Adoption): Observable<Adoption> {
-    return this.apiService.post<Adoption>('/adoptions', adoption);
+  getAdoptionById(id: number): Observable<AnimalDoacao> {
+    return this.apiService.get<AnimalDoacao>(`/adoptions/${id}`);
   }
 
-  updateAdoptionStatus(id: number, status: string): Observable<Adoption> {
-    return this.apiService.put<Adoption>(`/adoptions/${id}/status`, { status });
+  createAdoptionRequest(adoption: AnimalDoacao): Observable<AnimalDoacao> {
+    return this.apiService.post<AnimalDoacao>('/adoptions', adoption);
   }
 
-  getUserAdoptions(userId: number): Observable<Adoption[]> {
-    return this.apiService.get<Adoption[]>(`/adoptions/user/${userId}`);
+  updateAdoptionStatus(id: number, status: string): Observable<AnimalDoacao> {
+    return this.apiService.put<AnimalDoacao>(`/adoptions/${id}/status`, { status });
+  }
+
+  getUserAdoptions(userId: number): Observable<AnimalDoacao[]> {
+    return this.apiService.get<AnimalDoacao[]>(`/adoptions/user/${userId}`);
   }
 }

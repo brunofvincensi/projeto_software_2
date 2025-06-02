@@ -1,3 +1,4 @@
+import { Animal } from './../models/Animal';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -41,6 +42,9 @@ export class AnimalService {
   demonstrarInteresse(animalDoacaoId: number): Observable<any> {
     return this.http.post(`${this.baseUrl}/animais/doacao/${animalDoacaoId}/interesse`, {});
   }
+  getAnimalById(id: number): Observable<Animal> {
+  return this.http.get<Animal>(`${this.baseUrl}/animals/${id}`);
+}
 
   // Animais desaparecidos
   getAnimaisDesaparecidos(especie?: AnimalEspecie, local?: string): Observable<AnimalDesaparecido[]> {
