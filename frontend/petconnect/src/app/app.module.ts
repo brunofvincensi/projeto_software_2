@@ -19,6 +19,7 @@ import { AnimaisDesaparecidosInfoComponent } from './animais/animais-desaparecid
 import { AccessibilityComponent } from './accessibility/accessibility.component';
 import { AnimaisDoacaoInfoComponent } from './animais/animais-doacao/animais-doacao-info/animais-doacao-info.component';
 import { AnimaisDoacaoNovoComponent } from './animais/animais-doacao/animais-doacao-novo/animais-doacao-novo.component';
+import { SobreComponent } from './layout/sobre/sobre.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AnimaisDoacaoNovoComponent } from './animais/animais-doacao/animais-doa
     AnimaisDesaparecidosInfoComponent,
     AccessibilityComponent,
     AnimaisDoacaoInfoComponent,
-    AnimaisDoacaoNovoComponent
+    AnimaisDoacaoNovoComponent,
+    SobreComponent
   ],
   imports: [
     BrowserModule,

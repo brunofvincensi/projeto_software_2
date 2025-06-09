@@ -11,6 +11,7 @@ import { AnimaisDesaparecidosInfoComponent } from "./animais/animais-desaparecid
 import { AnimaisDoacaoComponent } from "./animais/animais-doacao/animais-doacao.component";
 import { AnimaisDoacaoNovoComponent } from "./animais/animais-doacao/animais-doacao-novo/animais-doacao-novo.component";
 import { AnimaisDoacaoInfoComponent } from "./animais/animais-doacao/animais-doacao-info/animais-doacao-info.component";
+import { SobreComponent } from "./layout/sobre/sobre.component";
 
 const routes: Routes = [
     // Rotas públicas
@@ -22,6 +23,8 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'animais', pathMatch: 'full' },
+      { path: 'sobre', component: SobreComponent },
+
       { path: 'animais-desaparecidos', component: AnimaisDesaparecidosComponent },
       { path: 'animais-desaparecidos/novo', component: AnimaisDesaparecidosNovoComponent },
       { path: 'animais-desaparecidos/info/:id', component: AnimaisDesaparecidosInfoComponent },

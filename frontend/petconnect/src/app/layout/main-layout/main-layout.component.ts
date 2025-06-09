@@ -62,6 +62,12 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
         icon: 'pets',
         path: '/animais-doacao',
         isActive: false
+      },
+      {
+        title: 'Sobre',
+        icon: 'pets',
+        path: '/sobre',
+        isActive: false
       }
     ];
   }

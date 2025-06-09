@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators, AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-usuario-form',
@@ -37,8 +38,7 @@ export class UsuarioFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -97,6 +97,10 @@ export class UsuarioFormComponent implements OnInit {
     if (this.registerForm.valid) {
       const formValue = this.registerForm.getRawValue();
       await this.authService.update(formValue).then(() => {
+        const usuario = this.authService.getCurrentUser() as Usuario;
+        usuario.nome = formValue.nome
+        usuario.dataNascimento = formValue.dataNascimento
+        usuario.telefone = formValue.telefone
         alert("Sucesso")
       }).catch(err => {
         this.errorMessage = err;
