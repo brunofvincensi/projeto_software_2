@@ -16,6 +16,7 @@ import { AnimaisDoacaoComponent } from './animais/animais-doacao/animais-doacao.
 import { authInterceptorProvider } from './interceptors/auth.interceptor';
 import { UsuarioFormComponent } from './usuario/usuario-form/usuario-form.component';
 import { AnimaisDesaparecidosInfoComponent } from './animais/animais-desaparecidos/animais-desaparecidos-info/animais-desaparecidos-info.component';
+import { AccessibilityComponent } from './accessibility/accessibility.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AnimaisDesaparecidosInfoComponent } from './animais/animais-desaparecid
     AnimaisDesaparecidosNovoComponent,
     AnimaisDoacaoComponent,
     UsuarioFormComponent,
-    AnimaisDesaparecidosInfoComponent
+    AnimaisDesaparecidosInfoComponent,
+    AccessibilityComponent
   ],
   imports: [
     BrowserModule,

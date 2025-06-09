@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+.high-contrast {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.high-contrast a {
+  color: #0ff !important;
+}
+
+.high-contrast button {
+  background-color: #333 !important;
+  color: #fff !important;
+  border: 1px solid #fff;
+}
