@@ -17,6 +17,8 @@ import { authInterceptorProvider } from './interceptors/auth.interceptor';
 import { UsuarioFormComponent } from './usuario/usuario-form/usuario-form.component';
 import { AnimaisDesaparecidosInfoComponent } from './animais/animais-desaparecidos/animais-desaparecidos-info/animais-desaparecidos-info.component';
 import { AccessibilityComponent } from './accessibility/accessibility.component';
+import { AnimaisDoacaoInfoComponent } from './animais/animais-doacao/animais-doacao-info/animais-doacao-info.component';
+import { AnimaisDoacaoNovoComponent } from './animais/animais-doacao/animais-doacao-novo/animais-doacao-novo.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { AccessibilityComponent } from './accessibility/accessibility.component'
     AnimaisDoacaoComponent,
     UsuarioFormComponent,
     AnimaisDesaparecidosInfoComponent,
-    AccessibilityComponent
+    AccessibilityComponent,
+    AnimaisDoacaoInfoComponent,
+    AnimaisDoacaoNovoComponent
   ],
   imports: [
     BrowserModule,

@@ -62,12 +62,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
         icon: 'pets',
         path: '/animais-doacao',
         isActive: false
-      },
-      {
-        title: 'Configurações',
-        icon: 'settings',
-        path: '/configuracoes',
-        isActive: false
       }
     ];
   }

@@ -6,5 +6,7 @@ public enum AnimalEspecie {
 
     GATO,
 
-    COELHO
+    COELHO,
+    
+    OUTROS
 }

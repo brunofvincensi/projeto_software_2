@@ -1,17 +1,25 @@
 package com.br.petconnect.controller;
 
 import com.br.petconnect.controller.model.request.AnimalDoacaoRequest;
+import com.br.petconnect.controller.model.response.AnimalDesaparecidoResponse;
 import com.br.petconnect.controller.model.response.AnimalDoacaoResponse;
 import com.br.petconnect.model.Animal;
+import com.br.petconnect.model.AnimalDesaparecido;
 import com.br.petconnect.model.AnimalDoacao;
 import com.br.petconnect.model.AnimalDoacaoInteressado;
+import com.br.petconnect.model.AnimalEspecie;
 import com.br.petconnect.model.Usuario;
+import com.br.petconnect.repository.AnimalDesaparecidoSpecifications;
 import com.br.petconnect.repository.AnimalDoacaoInteressadoRepository;
 import com.br.petconnect.repository.AnimalDoacaoRepository;
+import com.br.petconnect.repository.AnimalDoacaoSpecifications;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,15 +79,51 @@ public class AnimalDoacaoController extends PetConnetBaseController {
             .body("Tamanho máximo da foto é 5MB");
     }
     
+    @GetMapping("/{id}")
+    public ResponseEntity<AnimalDoacaoResponse> findBydId(@PathVariable Long id) {
+    	AnimalDoacao animalDoacao = animalDoacaoRepository.findById(id).orElse(null);
+    	if (animalDoacao == null) {
+    		return ResponseEntity.badRequest().build();
+    	}
+    	return ResponseEntity.ok(convertAnimalDoacaoResponse(animalDoacao));
+    }
+    
     @GetMapping("/all")
-    public ResponseEntity<List<AnimalDoacaoResponse>> buscaDoacoes() {
-        List<AnimalDoacaoResponse> list = animalDoacaoRepository
-                .findAll()
+    public ResponseEntity<List<AnimalDoacaoResponse>> buscaDoacoes(@RequestParam(required = false) MultiValueMap<String, String> query) {
+    	String idadeStr = getParam(query, "idade");
+    	
+    	AnimalEspecie especie = null;
+    	String especieStr = getParam(query, "especie");
+    	if (especieStr != null && !especieStr.isBlank()) {
+    		especie = AnimalEspecie.valueOf(especieStr);
+    	}
+    	String nome = getParam(query, "nome");
+    	
+        Specification<AnimalDoacao> spec = Specification.where(AnimalDoacaoSpecifications.comEspecie(especie))
+                .and(AnimalDoacaoSpecifications.comNome(nome));
+    	
+    	if (idadeStr != null && !idadeStr.isBlank()) {
+    		Integer idade = Integer.valueOf(idadeStr) ;
+    		spec = spec.and(AnimalDoacaoSpecifications.comIdade(idade));
+    	}
+		
+    	List<AnimalDoacaoResponse> list = animalDoacaoRepository
+                .findAll(spec)
                 .stream()
                 .map(this::convertAnimalDoacaoResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(list);
     }
+    
+	/**
+	 * Retorna um parâmetro de uma query
+	 * @param query
+	 * @param name
+	 * @return
+	 */
+	protected String getParam(MultiValueMap<String, String> query, String name) {
+		return query == null ? null : query.getFirst(name);
+	}
 
     @PostMapping("/interesse/{id}")
     public ResponseEntity<?> registrarInteresse(@PathVariable Long id) throws Exception {
@@ -118,10 +162,12 @@ public class AnimalDoacaoController extends PetConnetBaseController {
     private AnimalDoacaoResponse convertAnimalDoacaoResponse(AnimalDoacao animalDoacao) {
         AnimalDoacaoResponse animalDoacaoResponse = new AnimalDoacaoResponse();
         animalDoacaoResponse.setEmailUsuario(animalDoacao.getDoador().getEmail());
+        animalDoacaoResponse.setIdUsuario(animalDoacao.getDoador().getId());
         animalDoacaoResponse.setData(animalDoacao.getDataPublicacao());
         animalDoacaoResponse.setTitulo(animalDoacao.getTitulo());
         animalDoacaoResponse.setDescricao(animalDoacao.getDescricao());
         animalDoacaoResponse.setAnimal(AnimalConverter.convertAnimalResponse(animalDoacao.getAnimal()));
+        animalDoacaoResponse.setId(animalDoacao.getId());
         return animalDoacaoResponse;
     }
 

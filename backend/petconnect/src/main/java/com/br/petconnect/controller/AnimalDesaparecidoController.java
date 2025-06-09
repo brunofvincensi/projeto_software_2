@@ -13,10 +13,12 @@ import com.br.petconnect.repository.AnimalDesaparecidoSpecifications;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -58,6 +60,13 @@ public class AnimalDesaparecidoController extends PetConnetBaseController {
         Files.write(caminhoCompleto, foto.getBytes());
         
         return nomeArquivo;
+    }
+    
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<?> handleSizeExceeded() {
+        return ResponseEntity
+            .status(HttpStatus.PAYLOAD_TOO_LARGE)
+            .body("Tamanho máximo da foto é 5MB");
     }
     
     @GetMapping("/{id}")

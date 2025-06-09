@@ -1,0 +1,98 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">
+            <i class="bi bi-heartbreak-fill me-2"></i>Adicionar animal para doação
+          </h3>
+        </div>
+
+        <div class="card-body">
+          <form [formGroup]="animalForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+            <!-- Seção 1: Dados Básicos -->
+            <h5 class="mb-3 text-primary">Informações do Animal</h5>
+            <div class="row g-3" formGroupName="animal">
+              <div class="col-md-6">
+                <label class="form-label">Nome do Animal*</label>
+                <input type="text" class="form-control" formControlName="nome" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Espécie*</label>
+                <select class="form-select" formControlName="especie" required>
+                  <option value="">Selecione...</option>
+                  <option value="CACHORRO">Cachorro</option>
+                  <option value="GATO">Gato</option>
+                  <option value="OUTROS">Outros</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Raça</label>
+                <input type="text" class="form-control" formControlName="raca">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Idade (aproximada)*</label>
+                <input type="text" class="form-control" formControlName="idade">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Marcas ou Características Únicas*</label>
+                <textarea class="form-control" rows="3" formControlName="descricao"></textarea>
+                <small class="text-muted">Ex: Mancha na pata esquerda, cicatriz no dorso</small>
+              </div>
+            </div>
+
+            <!-- Seção 2: Características -->
+
+
+            <!-- Seção 3: Upload de Fotos -->
+            <hr class="my-4">
+            <h5 class="mb-3 text-primary">Fotos*</h5>
+            <div class="mb-3">
+              <label class="form-label">Adicione uma foto clara</label>
+              <input type="file" class="form-control" multiple accept="image/*" (change)="onFileChange($event)">
+
+              <div class="mt-3 d-flex gap-2">
+                <div *ngIf="fotoPreview" class="position-relative">
+                  <img [src]="fotoPreview" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                  <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" (click)="removerFoto()">
+                    <i class="bi bi-x"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Seção 4: Detalhes da Doação -->
+            <hr class="my-4">
+            <h5 class="mb-3 text-primary">Informações da doação</h5>
+            <div class="row g-3">
+
+              <div class="col-md-6">
+                <label class="form-label">Título*</label>
+                <input type="text" class="form-control" formControlName="titulo" required>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Descrição</label>
+                <textarea class="form-control" rows="2" formControlName="descricao"></textarea>
+              </div>
+            </div>
+            <!-- Botões -->
+            <hr class="my-4">
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-outline-secondary" routerLink="/animais-doacao">
+                <i class="bi bi-arrow-left me-2"></i>Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary" [disabled]="animalForm.invalid">
+                <i class="bi bi-send me-2"></i>Adicionar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

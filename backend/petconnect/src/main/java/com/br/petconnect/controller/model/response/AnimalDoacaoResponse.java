@@ -4,13 +4,23 @@ import java.time.LocalDate;
 
 public class AnimalDoacaoResponse {
 
+	private Long id;
     private AnimalResponse animal;
     private String titulo;
     private String descricao;
     private String emailUsuario;
     private LocalDate data;
+    private Long idUsuario;
 
-    public AnimalResponse getAnimal() {
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public AnimalResponse getAnimal() {
         return animal;
     }
 
@@ -50,4 +60,12 @@ public class AnimalDoacaoResponse {
         this.data = data;
     }
 
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+    
 }

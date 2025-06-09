@@ -1,8 +1,8 @@
 <div class="container py-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><i class="bi bi-heartbreak me-2"></i>Animais Desaparecidos</h2>
-    <button class="btn btn-primary" (click)="navigateTo('/animais-desaparecidos/novo')">
-      <i class="bi bi-plus-circle me-2"></i>Reportar Desaparecimento
+    <h2><i class="bi bi-heart-fill me-2"></i>Doações</h2>
+    <button class="btn btn-primary" (click)="navigateTo('/animais-doacao/novo')">
+      <i class="bi bi-plus-circle me-2"></i>Adicionar Doação
     </button>
   </div>
 
@@ -13,8 +13,8 @@
                    [(ngModel)]="filtros.nome" name="nome" (keyup.enter)="aplicarFiltros()">
         </div>
         <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Buscar por local..."
-                   [(ngModel)]="filtros.local" name="local" (keyup.enter)="aplicarFiltros()">
+            <input type="number" class="form-control" placeholder="Buscar por idade..."
+                   [(ngModel)]="filtros.idade" name="idade" (keyup.enter)="aplicarFiltros()">
         </div>
         <div class="col-md-3">
             <select class="form-select" [(ngModel)]="filtros.especie" name="especie" (keyup.enter)="aplicarFiltros()">
@@ -49,11 +49,11 @@
         <div class="card-body">
           <h5 class="card-title">{{animal.animal.nome}}</h5>
           <p class="card-text text-muted">
-            <i class="bi bi-geo-alt-fill"></i> {{animal.local}}<br>
-            <i class="bi bi-calendar-event"></i> {{animal.dataDesaparecimento | date:'dd/MM/yyyy'}}
+            <i class="bi bi-geo-alt-fill"></i> {{animal.titulo}}<br>
+            <i class="bi bi-calendar-event"></i> {{animal.dataPublicacao | date:'dd/MM/yyyy'}}
           </p>
         </div>
-        <div class="card-footer bg-transparent" [routerLink]="['/animais-desaparecidos/info/', animal.id]">
+        <div class="card-footer bg-transparent" [routerLink]="['/animais-doacao/info/', animal.id]">
           <small class="text-primary">Clique para mais detalhes</small>
         </div>
       </div>

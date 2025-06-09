@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AnimalDesaparecido } from 'src/app/models/animal-desaparecido.model';
-import { AnimalDesaparecidoService } from 'src/app/services/animal-desaparecido.service';
+import { AnimalDoacao } from 'src/app/models/animal-doacao.model';
+import { AnimalDoacaoService } from 'src/app/services/animal-doacao.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -12,16 +12,16 @@ import { AuthService } from 'src/app/services/auth.service';
 export class AnimaisDoacaoComponent {
 
   filtros = {
-    local: '',
+    idade: '',
     especie: '',
     nome: ''
   };
 
-  animais: AnimalDesaparecido[] = [];
+  animais: AnimalDoacao[] = [];
 
   constructor(
   private router: Router,
-  private service: AnimalDesaparecidoService,
+  private service: AnimalDoacaoService,
   private authService: AuthService
   ) {}
 
@@ -45,7 +45,7 @@ export class AnimaisDoacaoComponent {
 
   limparFiltros() {
     this.filtros = {
-      local: '',
+      idade: '',
       especie: '',
       nome: ''
     };
