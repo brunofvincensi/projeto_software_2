@@ -27,7 +27,7 @@ public class UsuarioRequest {
     @NotNull
     private LocalDate dataNascimento;
 
-    private Role role;
+    private Role role = Role.NORMAL;
 
     public String getEmail() {
         return email;

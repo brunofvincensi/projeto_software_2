@@ -1,0 +1,68 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow-sm" style="width: 100%; max-width: 400px;">
+    <div class="card-header bg-primary text-white text-center py-3">
+      <h4><i class="bi bi-shield-lock me-2"></i>PetConnect</h4>
+    </div>
+    <div class="card-body p-4">
+      <form [formGroup]="form" (ngSubmit)="login()" class="needs-validation" novalidate>
+        <!-- Campo Usuário -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Usuário</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              formControlName="username"
+              placeholder="Digite seu usuário"
+              [ngClass]="{ 'is-invalid': form.get('username')?.invalid && form.get('username')?.touched }"
+              required>
+          </div>
+          <div class="invalid-feedback">
+            Por favor, insira seu usuário.
+          </div>
+        </div>
+
+        <!-- Campo Senha -->
+        <div class="mb-4">
+          <label for="password" class="form-label">Senha</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              formControlName="password"
+              placeholder="Digite sua senha"
+              [ngClass]="{ 'is-invalid': form.get('password')?.invalid && form.get('password')?.touched }"
+              required>
+          </div>
+          <div class="invalid-feedback">
+            Por favor, insira sua senha.
+          </div>
+        </div>
+
+        <!-- Botão de Submit -->
+        <button
+          type="submit"
+          class="btn btn-primary w-100 py-2 mb-3"
+          [disabled]="form.invalid">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+        </button>
+
+        <!-- Link para Recuperação -->
+        <div class="text-center">
+          <a href="#" class="text-decoration-none">Esqueceu sua senha?</a>
+        </div>
+      </form>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        {{ errorMessage }}
+      </div>
+    </div>
+    <div class="card-footer text-center py-3 bg-light">
+      <small class="text-muted">Não tem conta? <a  [routerLink]="['/register']" class="text-primary">Cadastre-se</a></small>
+    </div>
+  </div>
+</div>

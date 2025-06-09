@@ -19,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,10 @@ public class UsuarioController extends PetConnetBaseController {
         if (usuarioRequest == null || Role.ADMIN.equals(usuarioRequest.getRole())) {
             return ResponseEntity.badRequest().build();
         }
+        
+        if (usuarioRepository.findByEmail(usuarioRequest.getEmail()).isPresent()) {
+        	return ResponseEntity.badRequest().body("Usuário já cadastrado");
+        }
 
         Usuario usuario = new Usuario();
         usuario.setNome(usuarioRequest.getNome());
@@ -57,7 +62,7 @@ public class UsuarioController extends PetConnetBaseController {
         usuarioRepository.save(usuario);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
+    
     @PostMapping("/login")
     public ResponseEntity<?> logar(@RequestBody @Valid LoginRequest loginRequest) {
         String username = loginRequest.getEmail();
@@ -129,6 +134,25 @@ public class UsuarioController extends PetConnetBaseController {
         usuarioResponse.setAvaliacao(usuario.getMediaAvaliacao());
 
         return ResponseEntity.ok(usuarioResponse);
+    }
+    
+    @PutMapping
+    public ResponseEntity<?> editarUsuario(@RequestBody UsuarioRequest usuarioRequest) throws UsernameNotFoundException, Exception {
+        if (usuarioRequest == null || Role.ADMIN.equals(usuarioRequest.getRole())) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        Usuario usuario = securityUserService.loadUserEntityByUsername(getUsernameFromRequest());
+        if (usuario == null) {
+        	return ResponseEntity.badRequest().build();
+        }
+        
+        usuario.setNome(usuarioRequest.getNome());
+        usuario.setDataNascimento(usuarioRequest.getDataNascimento());
+        usuario.setTelefone(usuarioRequest.getTelefone());
+
+        usuarioRepository.save(usuario);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }

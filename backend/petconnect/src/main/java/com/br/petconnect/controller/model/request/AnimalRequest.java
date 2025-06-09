@@ -3,13 +3,19 @@ package com.br.petconnect.controller.model.request;
 import com.br.petconnect.model.AnimalEspecie;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class AnimalRequest {
 
+	@NotBlank
     private String nome;
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
+    @NotNull
     private AnimalEspecie especie;
     private String raca;
     private Integer idade;
+    @NotBlank
     private String descricao;
     private String imagemUrl;
 

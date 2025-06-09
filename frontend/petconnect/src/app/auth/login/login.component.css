@@ -1,0 +1,26 @@
+/* Efeitos visuais */
+.card {
+  border-radius: 10px;
+  border: none;
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+  transition: all 0.3s;
+}
+
+.form-control:focus + .input-group-text {
+  background-color: #e9ecef;
+}
+
+/* Validação */
+.ng-invalid.ng-touched:not(form) {
+  border-color: #dc3545;
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+  .card {
+    margin: 0 15px;
+  }
+}

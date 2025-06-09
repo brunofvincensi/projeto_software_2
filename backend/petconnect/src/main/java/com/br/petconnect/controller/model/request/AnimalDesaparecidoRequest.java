@@ -8,22 +8,12 @@ import java.time.LocalDate;
 public class AnimalDesaparecidoRequest {
 
     @NotBlank
-    private String titulo;
-    @NotBlank
     private String local;
     @NotNull
     private LocalDate dataDesaparecimento;
     private String complemento;
     @NotNull
     private AnimalRequest animal;
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
 
     public String getLocal() {
         return local;

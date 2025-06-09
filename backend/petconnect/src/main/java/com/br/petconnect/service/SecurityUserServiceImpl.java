@@ -16,9 +16,6 @@ public class SecurityUserServiceImpl implements UserDetailsService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private UsuarioAvaliacaoRepository usuarioAvaliacaoRepository;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = loadUserEntityByUsername(username);
@@ -27,6 +24,8 @@ public class SecurityUserServiceImpl implements UserDetailsService {
         userDetails.setPassword(usuario.getSenha());
         userDetails.setNome(usuario.getNome());
         userDetails.setEmail(usuario.getEmail());
+        userDetails.setPhoneNumber(usuario.getTelefone());
+        userDetails.setId(usuario.getId());
         return userDetails;
     }
 

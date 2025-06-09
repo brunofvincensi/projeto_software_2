@@ -1,0 +1,53 @@
+/* Card de animal */
+.animal-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.animal-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* Imagem do card */
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Texto do card */
+.card-title {
+  color: #3f51b5;
+  font-weight: 600;
+}
+
+/* Ícones */
+.bi {
+  margin-right: 5px;
+}
+
+/* Estilo para o botão de lixeira */
+.btn-danger.rounded-circle {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* Efeito hover no card */
+.animal-card {
+  transition: transform 0.3s;
+  position: relative;
+}
+
+.animal-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Garante que a lixeira fique acima da imagem */
+.position-absolute {
+  z-index: 1;
+}

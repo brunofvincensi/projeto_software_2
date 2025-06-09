@@ -12,6 +12,7 @@ public class SecurityUser implements UserDetails {
     private String nome;
     private String email;
     private String phoneNumber;
+    private Long id;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -81,4 +82,12 @@ public class SecurityUser implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+    
 }

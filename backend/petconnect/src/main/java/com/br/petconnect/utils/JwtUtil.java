@@ -38,6 +38,7 @@ public class JwtUtil {
                 .setSubject(securityUser.getUsername())
                 .claim("nome", securityUser.getNome())
                 .claim("phoneNumber", securityUser.getPhoneNumber())
+                .claim("id", securityUser.getId())
                 .setIssuedAt(new Date(currentTimeMillis))
                 .setExpiration(new Date(currentTimeMillis + expirationMs))
                 .signWith(SignatureAlgorithm.HS512, secret)

@@ -13,9 +13,6 @@ public class AnimalDesaparecido {
     private Long id;
 
     @Column(nullable = false)
-    private String titulo;
-
-    @Column(nullable = false)
     private String local;
 
     @Column(nullable = false)
@@ -25,7 +22,7 @@ public class AnimalDesaparecido {
     private String complemento;
 
     @Column(nullable = false)
-    private boolean encontrado;
+    private boolean encontrado = false;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
@@ -41,14 +38,6 @@ public class AnimalDesaparecido {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public String getLocal() {

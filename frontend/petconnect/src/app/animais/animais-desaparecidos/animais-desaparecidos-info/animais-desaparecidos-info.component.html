@@ -1,0 +1,70 @@
+<div class="container py-5">
+  <button class="btn btn-outline-secondary mb-4" (click)="voltarParaListagem()">
+    <i class="bi bi-arrow-left me-2"></i>Voltar para lista
+  </button>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="animalDesaparecido && animalDesaparecido.animal" class="card shadow">
+    <div class="row g-0">
+      <!-- Coluna da Imagem -->
+      <div class="col-md-5">
+        <img [src]="getImagemCompleta(animalDesaparecido.animal.imagemUrl)"
+             class="img-fluid rounded-start h-100"
+             alt="{{animalDesaparecido.animal.nome}}"
+             style="object-fit: cover; min-height: 300px;">
+      </div>
+
+      <!-- Coluna das Informações -->
+      <div class="col-md-7">
+        <div class="card-body">
+          <h2 class="card-title">{{animalDesaparecido.animal.nome}}</h2>
+
+          <div class="d-flex flex-wrap gap-3 mb-4">
+            <span class="badge bg-primary">
+              <i class="bi bi-tag-fill me-1"></i> {{animalDesaparecido.animal.especie}}
+            </span>
+          </div>
+
+          <div class="mb-4">
+            <h5><i class="bi bi-geo-alt-fill text-danger me-2"></i> Local do Desaparecimento</h5>
+            <p class="ps-4">{{animalDesaparecido.local}}</p>
+            <p class="ps-4"><small class="text-muted">{{animalDesaparecido.complemento}}</small></p>
+          </div>
+
+          <div class="mb-4">
+            <h5><i class="bi bi-calendar-event text-primary me-2"></i> Data do Desaparecimento</h5>
+            <p class="ps-4">{{animalDesaparecido.dataDesaparecimento | date:'dd/MM/yyyy'}}</p>
+          </div>
+
+          <div class="mb-4">
+            <h5><i class="bi bi-info-circle-fill text-success me-2"></i> Características</h5>
+            <p class="ps-4">{{animalDesaparecido.animal.descricao}}</p>
+          </div>
+
+          <!-- Seção do Publicador -->
+          <div class="card mt-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0"><i class="bi bi-person-fill me-2"></i>Publicado por</h5>
+            </div>
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <i class="bi bi-person-circle" style="font-size: 2.5rem;"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <a [routerLink]="['/usuario/form/', animalDesaparecido.idUsuario]" class="text-decoration-none">
+                    <h6 class="text-primary mb-0">{{animalDesaparecido.emailUsuario || 'Usuário não encontrado'}}</h6>
+                    <small class="text-muted">Ver perfil completo</small>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

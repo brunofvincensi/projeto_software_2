@@ -1,0 +1,29 @@
+.star-rating {
+  display: inline-block;
+}
+
+.star-rating i {
+  transition: all 0.2s ease-in-out;
+}
+
+.star-rating i:hover {
+  transform: scale(1.1);
+}
+
+.star-icon {
+  font-size: 1.5rem;
+  color: #e4e5e9; /* Cor para estrelas vazias */
+  position: relative;
+  display: inline-block;
+}
+
+.star-icon .bi-star-fill,
+.star-icon .bi-star-half {
+  color: #ffc107; /* Cor amarela para estrelas preenchidas */
+}
+
+.star-icon .bi-star-half::before {
+  position: absolute;
+  overflow: hidden;
+  width: 50%;
+}
